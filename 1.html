@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BotUI - Hello World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui-theme-default.css" />
+  </head>
+  <body >
+  
+   <center><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSteRp5ZJrXnsm0y6KgUmi7pwvHx4VEuV78aj9CqEbA9SrBmkm3" alt="Girl in a jacket" width="300" height="200"> <center>
+    <div class="botui-app-container" id="print">
+      <bot-ui></bot-ui>
+    </div>
+    <script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/botui/build/botui.js"></script>
+    <script>
+      
+	  var botui = new BotUI('print'),
+    address = '';
+
+botui.message
+  .bot('Do you want to register complain ?')
+  .then(function () {
+    return botui.action.button({
+      delay: 1000,
+      addMessage: false, // so we could the address in message instead if 'Existing Address'
+      action: [{
+        text: 'YES',
+        value: 'y'
+      }, {
+        text: 'NO',
+        value: 'n'
+      }]
+    })
+}).then(function (res) {
+  if(res.value == 'y') {
+    botui.message.human({
+      delay: 500,
+      content: res.text
+    });
+     
+     cat();
+  } else {
+    botui.message.human({
+      delay: 500,
+      content: `No  `
+    });
+  ty();
+  }
+});
+
+
+
+var cat = function () {
+  botui.message
+    .bot({
+      delay: 500,
+      content: 'Select Issues  : '
+    })
+    .then(function () {
+      return botui.action.button({
+        delay: 1000,
+        action: [{
+         
+          text: 'I have a issue regarding to order',
+          value: '1'
+        }, {
+         
+          text: 'I have a issue regarding to account',
+          value: '2'
+        },
+        {
+         
+          text: 'I have a issue regarding to other query',
+          value: '3'
+        }]
+      })
+    }).then(function (res) {
+      if(res.value == '1') {
+        order();
+      }
+      if(res.value == '2') {
+        end();
+		ty();
+      }
+      if(res.value == '3') {
+        other();
+      }
+    });
+
+
+}
+
+
+
+
+var other = function () {
+  botui.message
+    .bot({
+      delay: 500,
+      content: 'Please write in Description below:'
+    })
+    .then(function () {
+      return botui.action.text({
+        delay: 1000,
+        action: {
+          size: 30,
+          
+           
+          placeholder: 'Enter Description Here...'
+        }
+      })
+    }).then(function (res) {
+      botui.message
+        .bot({
+          delay: 500,
+          content: 'Descriptions : ' + res.value
+        });
+
+      address = res.value; 
+
+      return botui.action.button({
+        delay: 1000,
+        action: [{
+          icon: 'check',
+          text: 'Confirm',
+          value: 'confirm'
+        }, {
+          icon: 'pencil',
+          text: 'Edit',
+          value: 'edit'
+        }]
+      })
+    }).then(function (res) {
+      if(res.value == 'confirm') {
+        cty();
+        ty();
+      } else {
+        other();
+      }
+    });
+}
+
+var end = function () {
+  botui.message
+    .bot({
+      delay: 1000,
+      content: 'Sorry, Contact to suryabhansv@gmail.com for More Help.'
+    });
+}
+ 
+var ty = function () {
+  botui.message
+    .bot({
+      delay: 1000,
+      content: 'Thank for using our service.'
+    });
+}
+
+var cty = function () {
+  botui.message
+    .bot({
+      delay: 1000,
+      content: 'Complain Registered Succesfully.'
+    });
+}
+
+
+
+var order = function () {
+  botui.message
+    .bot({
+      delay: 500,
+      content: 'Select Order ID  : '
+    })
+    .then(function () {
+      return botui.action.button({
+        delay: 1000,
+        action: [{
+         
+          text: '#OrderID-231',
+          value: '1'
+        }, {
+         
+          text: '#OrderID-212',
+          value: '2'
+        },
+        {
+         
+          text: '#OrderID-321',
+          value: '3'
+        }]
+      })
+    }).then(function (res) {
+      if(res.value == '1') {
+        order1();
+      }
+      if(res.value == '2') {
+        order2();
+      }
+      if(res.value == '3') {
+        order3();
+      }
+    });
+
+
+}
+
+var order1 = function () {
+  botui.message
+    .bot({
+      delay: 1000,
+      content: 'Complain Registered Regarding OrderID-231'
+     });
+      ty();
+}
+
+
+var order2 = function () {
+  botui.message
+    .bot({
+      delay: 1000,
+      content: 'Complain Registered Regarding OrderID-212'
+    });
+     ty();
+}
+
+var order3 = function () {
+  botui.message
+    .bot({
+      delay: 1000,
+      content: 'Complain Registered Regarding OrderID-321'
+    });
+     ty();
+}
+
+
+    </script>
+  </body>
+</html>
